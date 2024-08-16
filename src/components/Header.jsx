@@ -14,14 +14,14 @@ import { LinkIcon, LogOut } from "lucide-react";
 
 
 const Header = () => {
-  let user = true;
+  let user = false;
 
   const navigate = useNavigate();
 
   return (
     <nav className="py-4 flex justify-between items-center">
       <Link to="/">
-        <img src="/LINK.png" alt="logo-image" className="h-14" />
+        <img src="/logo.png" alt="logo-image" className="h-16" />
       </Link>
 
       <div>
