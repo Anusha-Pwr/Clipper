@@ -1,9 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { Copy, Delete, Download } from "lucide-react";
+import { Copy, Download, Trash } from "lucide-react";
+import useFetch from "../hooks/useFetch";
+import { deleteUrl } from "../db/apiUrls";
+import { BeatLoader } from "react-spinners";
 
 const LinkCard = ({ url, fetchUrls }) => {
+
+    const {data, loading, error, fn:fnDeleteUrl} = useFetch(deleteUrl, url?.id);
 
     function downloadImage() {
         const imgUrl = url?.qr;
@@ -48,8 +53,11 @@ const LinkCard = ({ url, fetchUrls }) => {
         <Button variant="ghost" onClick={downloadImage}>
             <Download />
         </Button>
-        <Button variant="ghost">
-            <Delete />
+        <Button variant="ghost" onClick={async() => {
+            await fnDeleteUrl();
+            fetchUrls();
+        }}>
+            {loading ? <BeatLoader color="white" size={5} /> : <Trash />}
         </Button>
       </div>
     </div>
