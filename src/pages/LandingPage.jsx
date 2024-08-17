@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
 
-  const [longUrl, setLongUrl] = useState();
+  const [longUrl, setLongUrl] = useState("");
 
   const navigate = useNavigate();
 
