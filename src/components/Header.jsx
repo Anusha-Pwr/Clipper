@@ -45,7 +45,7 @@ const Header = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LinkIcon className="mr-2 w-4 h-4" />
-                  <span>My Links</span>
+                  <span onClick={() => navigate("/dashboard")}>My Links</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-red-400">
                   <LogOut className="mr-2 w-4 h-4" />
