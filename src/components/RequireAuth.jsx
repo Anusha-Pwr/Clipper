@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { urlState } from "../context";
+import { BarLoader } from "react-spinners";
 
 const RequireAuth = ({ children }) => {
   const navigate = useNavigate();
