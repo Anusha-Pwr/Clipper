@@ -25,35 +25,46 @@ export async function deleteUrl(id) {
   return data;
 }
 
-                              /* creating the new url record */
+/* creating the new url record */
 export async function createUrl({
   title,
   longUrl,
   customUrl,
-  qrcode,
-  user_id,
-}) {
-  
+  user_id
+}, qrcode) {
+
+  console.log("i am called!!!");
   let shortUrl;
   let isUnique = false;
 
   // Generate unique short url
-  while(!isUnique) {
+  while (!isUnique) {
     shortUrl = Math.random().toString(36).substr(2, 6);
 
-    const {data} = await supabase.from("urls").select("short_url").eq("short_url", shortUrl);
+    const { data } = await supabase
+      .from("urls")
+      .select("short_url")
+      .eq("short_url", shortUrl);
 
-    if(data.length===0) {
-        isUnique = true;
+    if (data.length === 0) {
+      isUnique = true;
     }
   }
-  
+
+  console.log("reached here!");
+  console.log(qrcode);
+  console.log("hollla");
+
   // upload qr code to database bucket
   const fileName = `qr-${shortUrl}`;
 
+  console.log(qrcode.type);
+  console.log(qrcode.size);
   const { error: storageError } = await supabase.storage
     .from("qr")
-    .upload(fileName, qrcode);
+    .upload(fileName, qrcode, {
+        contentType: "image/png"
+    });
 
   if (storageError) throw new Error(storageError.message);
 
@@ -61,15 +72,15 @@ export async function createUrl({
 
   // insert the url record to the database table "urls"
   try {
-    const { data, error } = await supabase.auth
+    const { data, error } = await supabase
       .from("urls")
       .insert([
         {
           title,
-          user_id,
           original_url: longUrl,
-          short_url: shortUrl,
           custom_url: customUrl || null,
+          short_url: shortUrl,
+          user_id,
           qr,
         },
       ])
@@ -77,7 +88,6 @@ export async function createUrl({
 
     if (error) throw error;
     return data;
-
   } catch (error) {
     if (error.code === "23505") {
       throw new Error(
