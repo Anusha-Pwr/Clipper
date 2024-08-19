@@ -1,3 +1,4 @@
+
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getUrls(user_id) {
@@ -99,3 +100,20 @@ export async function createUrl({
     }
   }
 }
+
+
+export async function getLongUrl(linkId) {
+    const {data, error} = await supabase.from("urls").select("id, original_url").or(`short_url.eq.${linkId}, custom_url.eq.${linkId}`).single();
+
+    console.log(data);
+
+    if(error) {
+        console.error(error.message);
+        throw new Error("Short url not found");
+    }
+
+    return data;
+}
+
+
+
