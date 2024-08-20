@@ -1,4 +1,3 @@
-
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getUrls(user_id) {
@@ -27,13 +26,10 @@ export async function deleteUrl(id) {
 }
 
 /* creating the new url record */
-export async function createUrl({
-  title,
-  longUrl,
-  customUrl,
-  user_id
-}, qrcode) {
-
+export async function createUrl(
+  { title, longUrl, customUrl, user_id },
+  qrcode
+) {
   console.log("i am called!!!");
   let shortUrl;
   let isUnique = false;
@@ -64,7 +60,7 @@ export async function createUrl({
   const { error: storageError } = await supabase.storage
     .from("qr")
     .upload(fileName, qrcode, {
-        contentType: "image/png"
+      contentType: "image/png",
     });
 
   if (storageError) throw new Error(storageError.message);
@@ -101,19 +97,34 @@ export async function createUrl({
   }
 }
 
-
 export async function getLongUrl(linkId) {
-    const {data, error} = await supabase.from("urls").select("id, original_url").or(`short_url.eq.${linkId}, custom_url.eq.${linkId}`).single();
+  const { data, error } = await supabase
+    .from("urls")
+    .select("id, original_url")
+    .or(`short_url.eq.${linkId}, custom_url.eq.${linkId}`)
+    .single();
 
-    console.log(data);
+  console.log(data);
 
-    if(error) {
-        console.error(error.message);
-        throw new Error("Short url not found");
-    }
+  if (error) {
+    console.error(error.message);
+    throw new Error("Short url not found");
+  }
 
-    return data;
+  return data;
 }
 
+export async function getUrlInfo({ id, user_id }) {
+  const { data, error } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user_id);
 
+  if (error) {
+    console.error(error.message);
+    throw new Error("Error fetching url data");
+  }
 
+  return data;
+}

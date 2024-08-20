@@ -38,3 +38,17 @@ export async function storeClicks({ id, originalUrl }) {
     console.error("Error recording click");
   }
 }
+
+export async function getClicksData(urlId) {
+  const { data, error } = await supabase
+    .from("clicks")
+    .select("*")
+    .eq("url_id", urlId);
+
+  if (error) {
+    console.error(error.message);
+    throw new Error("Error fetching clicks data");
+  }
+
+  return data;
+}
