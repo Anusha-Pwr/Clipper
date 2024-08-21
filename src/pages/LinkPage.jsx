@@ -9,6 +9,7 @@ import { Button } from "../components/ui/button";
 import { Copy, Download, Trash } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LocationStats from "../components/LocationStats";
+import DeviceStats from "../components/DeviceStats";
 
 const LinkPage = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const LinkPage = () => {
     link = url?.custom_url ? url.custom_url : url.short_url;
   }
 
-  const { loading:loadingDelete, fn: fnDeleteUrl } = useFetch(deleteUrl, id);
+  const { loading: loadingDelete, fn: fnDeleteUrl } = useFetch(deleteUrl, id);
 
   function downloadImage() {
     const imgUrl = url?.qr;
@@ -86,9 +87,9 @@ const LinkPage = () => {
           <div className="flex gap-2">
             <Button
               variant="ghost"
-              onClick={() => navigator.clipboard.writeText(
-                `https://clipper.in/${link}`
-              )}
+              onClick={() =>
+                navigator.clipboard.writeText(`https://clipper.in/${link}`)
+              }
             >
               <Copy />
             </Button>
@@ -96,7 +97,11 @@ const LinkPage = () => {
               <Download />
             </Button>
             <Button variant="ghost" onClick={fnDeleteUrl}>
-              {loadingDelete ? <BeatLoader color="white" size={5} /> : <Trash />}
+              {loadingDelete ? (
+                <BeatLoader color="white" size={5} />
+              ) : (
+                <Trash />
+              )}
             </Button>
           </div>
 
@@ -109,9 +114,9 @@ const LinkPage = () => {
 
         <Card className="sm:w-3/5">
           <CardHeader>
-            <CardTitle>Stats</CardTitle>
+            <CardTitle className="text-4xl font-extrabold">Statistics</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-5">
             <Card>
               <CardHeader>
                 <CardTitle>Total Clicks</CardTitle>
@@ -120,11 +125,11 @@ const LinkPage = () => {
                 <p>{clicksForUrl?.length}</p>
               </CardContent>
             </Card>
-            <CardTitle>
-              <LocationStats stats={clicksForUrl ?? null} />
-            </CardTitle>
+            <CardTitle>Location Info</CardTitle>
+            <LocationStats stats={clicksForUrl ?? null} />
+
             <CardTitle>Device Info</CardTitle>
-            <p>Card Content</p>
+            <DeviceStats stats={clicksForUrl ?? null} />
           </CardContent>
         </Card>
       </div>

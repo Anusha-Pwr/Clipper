@@ -22,10 +22,16 @@ export default function LocationStats({ stats }) {
 
   console.log(res);
 
-  const cityCount = Object.entries(res).map(([city, count]) => ({
-    city,
-    count,
-  }));
+  let cityCount;
+
+  if (res) {
+    cityCount = Object.entries(res).map(([city, count]) => ({
+      city,
+      count,
+    }));
+  }
+
+  console.log(cityCount);
 
   return (
     <div style={{ width: "100%", height: 300 }}>

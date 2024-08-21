@@ -33,6 +33,7 @@ const CreateLink = () => {
     title: "",
     longUrl: longLink ? longLink : "",
     customUrl: "",
+    expirationDate: "",
   });
 
   function handleInputChange(e) {
@@ -52,6 +53,7 @@ const CreateLink = () => {
           .url("Enter a valid url")
           .required("Long url is required"),
         customUrl: Yup.string(),
+        expirationDate: Yup.date().min(new Date(), "Date cannot be in the past")
       });
 
       await schema.validate(formData, { abortEarly: false });
@@ -153,6 +155,13 @@ const CreateLink = () => {
               onChange={handleInputChange}
             />
           </div>
+
+          <Input
+            id="expirationDate"
+            value={formData.expirationDate}
+            placeholder="Enter expiration date (optional)"
+            onChange={handleInputChange}
+          />
         </DialogHeader>
 
         <DialogFooter>
