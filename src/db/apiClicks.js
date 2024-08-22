@@ -1,5 +1,6 @@
 import supabase from "./supabase";
 import { UAParser } from "ua-parser-js";
+import bcrypt from "bcryptjs";
 
 export async function getClicksForUrls(urlIds) {
   const { data, error } = await supabase
@@ -22,7 +23,7 @@ export async function storeClicks({ id, originalUrl }) {
   try {
     const { data, error } = await supabase
       .from("urls")
-      .select("expiration_date")
+      .select("expiration_date, password")
       .eq("id", id)
       .single();
 
@@ -31,11 +32,35 @@ export async function storeClicks({ id, originalUrl }) {
       throw new Error("Error fetching expiration date");
     }
 
-    const expirationDate = data?.expiration_date;
+    const { expiration_date: expirationDate, password: hashedPassword } = data; // data retreived from supabase
 
     if (expirationDate && new Date(expirationDate) < new Date()) {
+      // if the link has expired
       alert("This link has expired and is no longer available.");
       return;
+    }
+
+    if (hashedPassword) {
+      // if the link is password-protected
+      const userPassword = prompt(
+        "This link is password-protected. Please enter the password:"
+      );
+
+      if (!userPassword) {
+        alert("Password is required to access this link.");
+        return;
+      }
+
+      // check for password matching
+      const passwordIsValid = await bcrypt.compare(
+        userPassword,
+        hashedPassword
+      );
+
+      if (!passwordIsValid) {
+        alert("Incorrect password. Access denied.");
+        return;
+      }
     }
 
     const res = parser.getResult();
