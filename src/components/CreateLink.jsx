@@ -35,6 +35,7 @@ const CreateLink = () => {
     longUrl: longLink ? longLink : "",
     customUrl: "",
     expirationDate: null,
+    password: null,
   });
 
   function handleInputChange(e) {
@@ -63,10 +64,12 @@ const CreateLink = () => {
           .url("Enter a valid url")
           .required("Long url is required"),
         customUrl: Yup.string(),
-        expirationDate: Yup.date().min(
-          new Date(),
-          "Date cannot be in the past"
-        ).nullable(),
+        expirationDate: Yup.date()
+          .min(new Date(), "Date cannot be in the past")
+          .nullable(),
+        password: Yup.string()
+          .min(8, "Password must be at least 8 characters long")
+          .nullable(),
       });
 
       await schema.validate(formData, { abortEarly: false });
@@ -131,6 +134,7 @@ const CreateLink = () => {
             longUrl: "",
             customUrl: "",
             expirationDate: null,
+            password: null
           });
         }
       }}
@@ -181,6 +185,14 @@ const CreateLink = () => {
             onChange={handleDateChange}
           />
           {errors.expirationDate && <Error message={errors.expirationDate} />}
+
+          <Input
+            id="password"
+            value={formData.password}
+            placeholder="Enter password (optional)"
+            onChange={handleInputChange}
+          />
+          {errors.password && <Error message={errors.password} />}
         </DialogHeader>
 
         <DialogFooter>

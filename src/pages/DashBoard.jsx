@@ -74,7 +74,7 @@ const DashBoard = () => {
 
       <div className="flex justify-between">
         <h1 className="text-4xl font-extrabold">My Links</h1>
-        {/* <Button>Create Link</Button> */}
+
         <CreateLink />
       </div>
 
@@ -89,8 +89,10 @@ const DashBoard = () => {
       </div>
 
       {error && <Error message={error.message} />}
-      
-      {filteredUrls?.map((url, i) => <LinkCard key={i} url={url} fetchUrls={fnGetUrls} />)}
+
+      {filteredUrls?.map((url, i) => (
+        <LinkCard key={i} url={url} fetchUrls={fnGetUrls} />
+      ))}
     </div>
   );
 };

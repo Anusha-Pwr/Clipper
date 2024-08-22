@@ -1,4 +1,5 @@
 import supabase, { supabaseUrl } from "./supabase";
+import bcrypt from "bcryptjs";
 
 export async function getUrls(user_id) {
   const { data, error } = await supabase
@@ -27,7 +28,7 @@ export async function deleteUrl(id) {
 
 /* creating the new url record */
 export async function createUrl(
-  { title, longUrl, customUrl, expirationDate, user_id },
+  { title, longUrl, customUrl, expirationDate, password, user_id },
   qrcode
 ) {
   console.log("i am called!!!");
@@ -68,6 +69,12 @@ export async function createUrl(
 
   const qr = `${supabaseUrl}/storage/v1/object/public/qr/${fileName}`;
 
+  let hashedPassword = null;
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    hashedPassword = await bcrypt.hash(password, salt);
+  }
+
   // insert the url record to the database table "urls"
   try {
     const { data, error } = await supabase
@@ -80,7 +87,8 @@ export async function createUrl(
           short_url: shortUrl,
           user_id,
           qr,
-          expiration_date: expirationDate
+          expiration_date: expirationDate,
+          password: hashedPassword,
         },
       ])
       .select();

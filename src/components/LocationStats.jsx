@@ -36,7 +36,7 @@ export default function LocationStats({ stats }) {
   return (
     <div style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer>
-        <LineChart width={500} height={300} data={cityCount}>
+        <LineChart width={700} height={400} data={cityCount}>
           <XAxis dataKey="city" padding={{ left: 30, right: 30 }} />
           <YAxis />
           <Tooltip labelStyle={{ color: "green" }} />

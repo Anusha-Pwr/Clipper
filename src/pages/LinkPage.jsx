@@ -81,8 +81,16 @@ const LinkPage = () => {
             {url?.original_url}
           </a>
           <span className="flex items-end font-extralight text-sm">
+            Created:{" "}
             {url?.created_at && new Date(url?.created_at).toLocaleString()}
           </span>
+          {url?.expiration_date && (
+            <span className="flex items-end font-extralight text-sm text-red-500">
+              Expired:{" "}
+              {url?.expiration_date &&
+                new Date(url?.expiration_date).toLocaleString()}
+            </span>
+          )}
 
           <div className="flex gap-2">
             <Button
@@ -114,7 +122,9 @@ const LinkPage = () => {
 
         <Card className="sm:w-3/5">
           <CardHeader>
-            <CardTitle className="text-4xl font-extrabold">Statistics</CardTitle>
+            <CardTitle className="text-4xl font-extrabold">
+              Statistics
+            </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
             <Card>
