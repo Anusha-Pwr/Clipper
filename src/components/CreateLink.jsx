@@ -18,6 +18,7 @@ import Error from "./Error";
 import useFetch from "../hooks/useFetch";
 import { createUrl } from "../db/apiUrls";
 import { BeatLoader } from "react-spinners";
+import { DatePicker } from "./ui/DatePicker";
 
 const CreateLink = () => {
   const { user } = urlState();
@@ -33,13 +34,22 @@ const CreateLink = () => {
     title: "",
     longUrl: longLink ? longLink : "",
     customUrl: "",
-    expirationDate: "",
+    expirationDate: null,
   });
 
   function handleInputChange(e) {
+    console.log(e.target.value);
     setFormData((prevData) => ({
       ...prevData,
       [e.target.id]: e.target.value,
+    }));
+  }
+
+  function handleDateChange(date) {
+    console.log(date);
+    setFormData((prevData) => ({
+      ...prevData,
+      expirationDate: date,
     }));
   }
 
@@ -53,7 +63,10 @@ const CreateLink = () => {
           .url("Enter a valid url")
           .required("Long url is required"),
         customUrl: Yup.string(),
-        expirationDate: Yup.date().min(new Date(), "Date cannot be in the past")
+        expirationDate: Yup.date().min(
+          new Date(),
+          "Date cannot be in the past"
+        ).nullable(),
       });
 
       await schema.validate(formData, { abortEarly: false });
@@ -75,6 +88,7 @@ const CreateLink = () => {
       );
 
       console.log(blob);
+      console.log(formData.expirationDate);
 
       await fnCreateUrl(blob);
       //api call
@@ -112,7 +126,12 @@ const CreateLink = () => {
         if (!res) {
           setSearchParams({});
           setErrors({});
-          setFormData({ title: "", longUrl: "", customUrl: "" });
+          setFormData({
+            title: "",
+            longUrl: "",
+            customUrl: "",
+            expirationDate: null,
+          });
         }
       }}
     >
@@ -156,12 +175,12 @@ const CreateLink = () => {
             />
           </div>
 
-          <Input
+          <DatePicker
             id="expirationDate"
             value={formData.expirationDate}
-            placeholder="Enter expiration date (optional)"
-            onChange={handleInputChange}
+            onChange={handleDateChange}
           />
+          {errors.expirationDate && <Error message={errors.expirationDate} />}
         </DialogHeader>
 
         <DialogFooter>

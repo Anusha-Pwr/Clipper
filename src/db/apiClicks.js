@@ -20,6 +20,24 @@ const parser = new UAParser();
 export async function storeClicks({ id, originalUrl }) {
   console.log(id, originalUrl);
   try {
+    const { data, error } = await supabase
+      .from("urls")
+      .select("expiration_date")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      console.error(error.message);
+      throw new Error("Error fetching expiration date");
+    }
+
+    const expirationDate = data?.expiration_date;
+
+    if (expirationDate && new Date(expirationDate) < new Date()) {
+      alert("This link has expired and is no longer available.");
+      return;
+    }
+
     const res = parser.getResult();
     const device = res.type || "Desktop";
 

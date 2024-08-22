@@ -27,7 +27,7 @@ export async function deleteUrl(id) {
 
 /* creating the new url record */
 export async function createUrl(
-  { title, longUrl, customUrl, user_id },
+  { title, longUrl, customUrl, expirationDate, user_id },
   qrcode
 ) {
   console.log("i am called!!!");
@@ -51,6 +51,7 @@ export async function createUrl(
   console.log("reached here!");
   console.log(qrcode);
   console.log("hollla");
+  console.log(expirationDate);
 
   // upload qr code to database bucket
   const fileName = `qr-${shortUrl}`;
@@ -79,6 +80,7 @@ export async function createUrl(
           short_url: shortUrl,
           user_id,
           qr,
+          expiration_date: expirationDate
         },
       ])
       .select();
