@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { urlState } from "../context";
 import { BarLoader, BeatLoader } from "react-spinners";
 import { Button } from "../components/ui/button";
-import { Copy, Download, Trash } from "lucide-react";
+import { Copy, Download, Lock, Trash } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LocationStats from "../components/LocationStats";
 import DeviceStats from "../components/DeviceStats";
@@ -66,13 +66,20 @@ const LinkPage = () => {
           <span className="text-6xl font-extrabold hover:underline cursor-pointer">
             {url?.title}
           </span>
+
           <a
             href={`https://clipper.in/${link}`}
             target="_blank"
-            className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
+            className="text-3xl flex items-center gap-3 sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
           >
             https://clipper.in/{link}
+            {url?.password && (
+              <span className="text-green-500">
+                <Lock className="h-8 w-8" />
+              </span>
+            )}
           </a>
+
           <a
             href={url?.original_url}
             target="_blank"
@@ -80,10 +87,12 @@ const LinkPage = () => {
           >
             {url?.original_url}
           </a>
+
           <span className="flex items-end font-extralight text-sm">
             Created:{" "}
             {url?.created_at && new Date(url?.created_at).toLocaleString()}
           </span>
+
           {url?.expiration_date && (
             <span className="flex items-end font-extralight text-sm text-red-500">
               Expired:{" "}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { Check, Copy, Download, Trash } from "lucide-react";
+import { Check, Copy, Download, Lock, Trash } from "lucide-react";
 import useFetch from "../hooks/useFetch";
 import { deleteUrl } from "../db/apiUrls";
 import { BeatLoader } from "react-spinners";
@@ -19,10 +19,10 @@ const LinkCard = ({ url, fetchUrls }) => {
 
   useEffect(() => {
     return () => {
-        if(copiedTimeOutRef.current) {
-            clearTimeout(copiedTimeOutRef.current);
-        }
-    }
+      if (copiedTimeOutRef.current) {
+        clearTimeout(copiedTimeOutRef.current);
+      }
+    };
   }, []);
 
   function downloadImage() {
@@ -43,8 +43,8 @@ const LinkCard = ({ url, fetchUrls }) => {
     navigator.clipboard.writeText(`https://clipper.in/${url?.short_url}`);
     setCopied(true);
 
-    if(copiedTimeOutRef.current) {
-        clearTimeout(copiedTimeOutRef.current);
+    if (copiedTimeOutRef.current) {
+      clearTimeout(copiedTimeOutRef.current);
     }
 
     copiedTimeOutRef.current = setTimeout(() => {
@@ -63,15 +63,24 @@ const LinkCard = ({ url, fetchUrls }) => {
         <span className="text-3xl font-extrabold hover:underline cursor-pointer mt-0">
           {url?.title}
         </span>
-        <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
+
+        <span className="text-2xl flex gap-3 items-center text-blue-400 font-bold hover:underline cursor-pointer">
           https://clipper.in/{url?.custom_url ? url.custom_url : url.short_url}
+          {url?.password && (
+            <span className="text-green-500">
+              <Lock className="h-5 w-5" />
+            </span>
+          )}
         </span>
+
         <span className="flex items-center gap-1 hover:underline cursor-pointer">
           {url?.original_url}
         </span>
+
         <span className="flex items-end font-extralight text-xs flex-1">
           Created: {new Date(url?.created_at).toLocaleString()}
         </span>
+
         {url?.expiration_date && (
           <span className="flex items-end font-extralight text-xs text-red-500">
             Expired: {new Date(url?.expiration_date).toLocaleString()}

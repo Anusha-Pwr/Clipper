@@ -10,7 +10,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-
   const [longUrl, setLongUrl] = useState("");
 
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ const LandingPage = () => {
   function handleShorten(e) {
     e.preventDefault();
 
-    if(longUrl) {
+    if (longUrl) {
       navigate(`/auth?createNew=${longUrl}`);
     }
   }
@@ -28,7 +27,10 @@ const LandingPage = () => {
       <h2 className="my-10 text-3xl sm:my-16 sm:text-6xl lg:text-7xl text-white text-center font-extrabold">
         This is the only URL shortener you'll ever need! 👇
       </h2>
-      <form className="sm:h-14 sm:flex-row flex flex-col w-full gap-2 md:w-2/4" onSubmit={handleShorten}>
+      <form
+        className="sm:h-14 sm:flex-row flex flex-col w-full gap-2 md:w-2/4"
+        onSubmit={handleShorten}
+      >
         <Input
           type="url"
           value={longUrl}
@@ -40,7 +42,12 @@ const LandingPage = () => {
           Shorten!
         </Button>
       </form>
-      <img src="/banner.png" className="w-full my-11 md:px-11" />
+      <div className="md:px-11 overflow-hidden w-full my-11">
+        <img
+          src="/clipper-banner.png"
+          className="w-full rounded-md"
+        />
+      </div>
 
       <Accordion type="multiple" collapsible="true" className="w-full md:px-11">
         <AccordionItem value="item-1">
