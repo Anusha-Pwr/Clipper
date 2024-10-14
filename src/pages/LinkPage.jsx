@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { urlState } from "../context";
 import { BarLoader, BeatLoader } from "react-spinners";
 import { Button } from "../components/ui/button";
-import { Copy, Download, Lock, Trash } from "lucide-react";
+import { Copy, Download, LinkIcon, Lock, Trash } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LocationStats from "../components/LocationStats";
 import DeviceStats from "../components/DeviceStats";
@@ -62,29 +62,38 @@ const LinkPage = () => {
         <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
       )}
       <div className="flex flex-col gap-8 sm:flex-row justify-between">
-        <div className="flex flex-col items-start gap-8 rounded-lg sm:w-2/5">
-          <span className="text-6xl font-extrabold hover:underline cursor-pointer">
+        <div className="flex flex-col items-start gap-8 rounded-lg sm:w-2/5  flex-wrap">
+          <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold hover:underline cursor-pointer">
             {url?.title}
           </span>
 
-          <a
-            href={`https://clipper.in/${link}`}
-            target="_blank"
-            className="text-3xl flex items-center gap-3 sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
-          >
-            https://clipper.in/{link}
-            {url?.password && (
-              <span className="text-green-500">
-                <Lock className="h-8 w-8" />
+          <div className="w-full">
+            <a
+              href={`https://clipper.in/${link}`}
+              target="_blank"
+              className="text-xl sm:text-2xl md:text-3xl items-center gap-3 text-blue-400 font-bold hover:underline cursor-pointer break-words"
+            >
+              https://clipper.in/{link}
+            </a>
+          </div>
+
+          {url?.password && (
+            <div className="flex gap-2 items-center text-green-500">
+              <span className="text-green-800 font-extrabold bg-green-200 rounded-full p-1 sm:p-1.5 md:p-2">
+                Password protected
               </span>
-            )}
-          </a>
+              <span className="group-hover:block">
+                <Lock className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9" />
+              </span>
+            </div>
+          )}
 
           <a
             href={url?.original_url}
             target="_blank"
             className="flex items-center gap-1 hover:underline cursor-pointer"
           >
+            <LinkIcon className="p-1" />
             {url?.original_url}
           </a>
 
