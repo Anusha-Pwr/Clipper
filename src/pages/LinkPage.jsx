@@ -69,11 +69,11 @@ const LinkPage = () => {
 
           <div className="w-full">
             <a
-              href={`https://clipper.in/${link}`}
+              href={`${window.location.origin}/${link}`}
               target="_blank"
               className="text-xl sm:text-2xl md:text-3xl items-center gap-3 text-blue-400 font-bold hover:underline cursor-pointer break-words"
             >
-              https://clipper.in/{link}
+              ${window.location.origin}/{link}
             </a>
           </div>
 

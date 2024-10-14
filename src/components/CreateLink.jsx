@@ -170,7 +170,7 @@ const CreateLink = () => {
           {errors.longUrl && <Error message={errors.longUrl} />}
 
           <div className="flex items-center gap-2">
-            <Card className="p-2">clipper.in</Card> /
+            <Card className="p-2">{window.location.hostname}</Card> /
             <Input
               id="customUrl"
               value={formData.customUrl}
