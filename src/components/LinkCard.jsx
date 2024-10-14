@@ -70,7 +70,7 @@ const LinkCard = ({ url, fetchUrls }) => {
 
           <span className="text-lg sm:text-xl md:text-2xl flex gap-3 items-center text-blue-400 font-bold hover:underline cursor-pointe">
             <a className="truncate">
-              https://clipper.in/
+              {window.location.origin}/
               {url?.custom_url ? url.custom_url : url.short_url}
             </a>
             {url?.password && (

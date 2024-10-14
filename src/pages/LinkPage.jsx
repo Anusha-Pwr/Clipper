@@ -73,7 +73,7 @@ const LinkPage = () => {
               target="_blank"
               className="text-xl sm:text-2xl md:text-3xl items-center gap-3 text-blue-400 font-bold hover:underline cursor-pointer break-words"
             >
-              ${window.location.origin}/{link}
+              {window.location.origin}/{link}
             </a>
           </div>
 
