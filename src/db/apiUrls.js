@@ -31,7 +31,6 @@ export async function createUrl(
   { title, longUrl, customUrl, expirationDate, password, user_id },
   qrcode
 ) {
-  console.log("i am called!!!");
   let shortUrl;
   let isUnique = false;
 
@@ -49,16 +48,11 @@ export async function createUrl(
     }
   }
 
-  console.log("reached here!");
-  console.log(qrcode);
-  console.log("hollla");
-  console.log(expirationDate);
-
   // upload qr code to database bucket
   const fileName = `qr-${shortUrl}`;
 
-  console.log(qrcode.type);
-  console.log(qrcode.size);
+  // console.log(qrcode.type);
+  // console.log(qrcode.size);
   const { error: storageError } = await supabase.storage
     .from("qr")
     .upload(fileName, qrcode, {
@@ -113,8 +107,6 @@ export async function getLongUrl(linkId) {
     .select("id, original_url")
     .or(`short_url.eq.${linkId}, custom_url.eq.${linkId}`)
     .single();
-
-  console.log(data);
 
   if (error) {
     console.error(error.message);

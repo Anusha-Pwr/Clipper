@@ -19,7 +19,7 @@ export async function getClicksForUrls(urlIds) {
 const parser = new UAParser();
 
 export async function storeClicks({ id, originalUrl }) {
-  console.log(id, originalUrl);
+  // console.log(id, originalUrl);
   try {
     const { data, error } = await supabase
       .from("urls")

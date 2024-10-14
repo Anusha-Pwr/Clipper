@@ -21,7 +21,7 @@ const RedirectLink = () => {
 
   useEffect(() => {
     fnGetLongUrl();
-    console.log(data);
+    // console.log(data);
   }, []);
 
   useEffect(() => {

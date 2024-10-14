@@ -39,7 +39,7 @@ const CreateLink = () => {
   });
 
   function handleInputChange(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setFormData((prevData) => ({
       ...prevData,
       [e.target.id]: e.target.value,
@@ -47,7 +47,7 @@ const CreateLink = () => {
   }
 
   function handleDateChange(date) {
-    console.log(date);
+    // console.log(date);
     setFormData((prevData) => ({
       ...prevData,
       expirationDate: date,
@@ -78,20 +78,20 @@ const CreateLink = () => {
       if (!canvas) throw new Error("Canvas not found!");
 
       const dataUrl = canvas.toDataURL("image/png");
-      console.log("QR Code Data URL:", dataUrl);
+      // console.log("QR Code Data URL:", dataUrl);
 
       const blob = await new Promise((resolve, reject) =>
         canvas.toBlob((result) => {
           if (result) {
-            console.log(result.type);
-            console.log(result.size);
+            // console.log(result.type);
+            // console.log(result.size);
             resolve(result);
           } else reject(new Error("Blob creation failed!"));
         })
       );
 
-      console.log(blob);
-      console.log(formData.expirationDate);
+      // console.log(blob);
+      // console.log(formData.expirationDate);
 
       await fnCreateUrl(blob);
       //api call

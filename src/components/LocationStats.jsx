@@ -20,7 +20,7 @@ export default function LocationStats({ stats }) {
     return acc;
   }, {});
 
-  console.log(res);
+  // console.log(res);
 
   let cityCount;
 
@@ -31,7 +31,7 @@ export default function LocationStats({ stats }) {
     }));
   }
 
-  console.log(cityCount);
+  // console.log(cityCount);
 
   return (
     <div style={{ width: "100%", height: 300 }}>
